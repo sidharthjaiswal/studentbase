@@ -1,8 +1,7 @@
 # Start the MEVN Stack project.
 ```
 Get inside the project
-cd vue-mevn-stack-app
-
+cd frontend
 Install the required packages:
 npm install
 
