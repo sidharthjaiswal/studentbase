@@ -1,44 +1,100 @@
 <template>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h3 class="text-center">Create Student</h3>
-            <form @submit.prevent="handleSubmitForm">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" class="form-control" v-model="student.name" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" v-model="student.email" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" v-model="student.phone" required>
-                </div>
-
-                <div class="form-group">
-                    <button class="btn btn-danger btn-block">Create</button>
-                </div>
-            </form>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h3 class="text-center">Create Student</h3>
+      <form @submit.prevent="handleSubmitForm">
+        <div class="form-group">
+          <label>First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="student.firstName"
+            required
+          />
         </div>
+
+        <div class="form-group">
+          <label>Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="student.lastName"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            class="form-control"
+            v-model="student.email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="student.phone"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Class</label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="student.class"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Create</button>
+        </div>
+      </form>
     </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                student: {
-                   name: '',
-                   email: '',
-                   phone: ''
-                }
-            }
-        },
-        methods: {
-            handleSubmitForm() { }
-        }
-    }
+import axios from "axios";
+export default {
+  data() {
+    return {
+      student: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        class: "",
+      },
+    };
+  },
+  methods: {
+    handleSubmitForm() {
+      let apiURL = "http://localhost:4000/api/create-student";
+
+      axios
+        .post(apiURL, this.student)
+        .then(() => {
+          this.$router.push("/view");
+          this.student = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            class: ""
+          };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
