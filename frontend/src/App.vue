@@ -5,13 +5,17 @@
       <div class="container">
         <a class="navbar-brand float-left">Student-DataBase</a>
         <ul class="nav navbar-nav flex-row float-right">
-          <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/">Create Student</router-link>
+           <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/" >Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/view">View Students</router-link>
+            <router-link class="nav-link pr-3" to="/create">Add Student</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/view">View Students</router-link>
           </li>
         </ul>
+        <p style="color: white;">A MEVN Stack project devloped by Sidharth Jaiswal.</p>
       </div>
     </nav>
 

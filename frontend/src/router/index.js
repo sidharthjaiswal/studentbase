@@ -7,6 +7,12 @@ const routes = [{
         path: '/',
         name: 'home',
         component: () =>
+            import ('../components/HomeComponent')
+    },
+    {
+        path: '/create',
+        name: 'create',
+        component: () =>
             import ('../components/CreateComponent')
     },
     {
