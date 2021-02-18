@@ -1,53 +1,88 @@
 <template>
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-striped">
-        <thead class="thead-dark">
-          <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Class</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="student in Students" :key="student._id">
-            <td>{{ student.firstName }}</td>
-            <td>{{ student.lastName }}</td>
-            <td>{{ student.email }}</td>
-            <td>{{ student.phone }}</td>
-            <td>{{ student.class }}</td>
-            <td>
-              <router-link
-                :to="{ name: 'edit', params: { id: student._id } }"
-                class="btn btn-success"
-                >Edit
-              </router-link>
-              <button
-                @click.prevent="deleteStudent(student._id)"
-                class="btn btn-danger"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="overflow-auto">
+    <b-table
+      :fields="fields"
+      :items="Students"
+      :per-page="perPage"
+      :current-page="currentPage"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      sort-icon-left
+      responsive="sm"
+      medium
+      striped
+    >
+     <!-- <template #cell(actions)="row">
+        <b-button 
+          size="md"
+            @click.prevent="deleteStudent(Students._id)"
+          class="bg-danger"
+        >
+          Delete
+        </b-button>
+
+        <b-button size="md" @click="row.toggleDetails" class="bg-success">
+          <router-link :to="{ name: 'edit', params: { id: Students._id } }"
+            >Edit
+          </router-link>
+        </b-button>
+      </template>-->
+    </b-table>
+    <div>
+      Sorting By: <b>{{ sortBy }}</b
+      >, Sort Direction:
+      <b>{{ sortDesc ? "Descending" : "Ascending" }}</b>
     </div>
+    <br />
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+    ></b-pagination>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
 export default {
   data() {
     return {
+      sortBy: "firstname",
+      sortDesc: false,
+      fields: [
+        {
+          key: "firstName",
+          sortable: true,
+        },
+        {
+          key: "lastName",
+          sortable: true,
+        },
+        {
+          key: "email",
+          sortable: false,
+        },
+        {
+          key: "phone",
+          sortable: false,
+        },
+        {
+          key: "class",
+          sortable: true,
+        },
+       /* {
+          key: "actions",
+          sortable: false,
+          visible: false
+        },*/
+      ],
+      perPage: 3,
+      currentPage: 1,
       Students: [],
     };
   },
+
   created() {
     let apiURL = "http://localhost:4000/api";
     axios
@@ -74,6 +109,11 @@ export default {
             console.log(error);
           });
       }
+    },
+  },
+  computed: {
+    rows() {
+      return this.Students.length;
     },
   },
 };
