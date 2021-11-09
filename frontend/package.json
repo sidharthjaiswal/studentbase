@@ -15,7 +15,8 @@
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-bootstrap-pagination": "^2.10.3",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.4.9",
+    "vue-table-dynamic": "^0.4.4"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",

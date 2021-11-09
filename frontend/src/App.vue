@@ -2,7 +2,12 @@
   <div>
     <!-- Nav bar -->
     <nav
-      class="navbar navbar-dark bg-primary justify-content-between flex-nowrap flex-row"
+      class="
+        navbar navbar-dark
+        bg-primary
+        justify-content-between
+        flex-nowrap flex-row
+      "
     >
       <div class="container">
         <a class="navbar-brand float-left">Student-DataBase</a>
@@ -32,7 +37,18 @@
     </div>
 
     <div class="fluid-container">
-      <footer class="footer footer-dark bg-primary justify-content-between flex-nowrap flex-row" ><p class="text-center" style="color: white">Copyright © 2021 Sidharth Jaiswal, All rights reserved.</p></footer>
+      <footer
+        class="
+          footer footer-dark
+          bg-primary
+          justify-content-between
+          flex-nowrap flex-row
+        "
+      >
+        <p class="text-center" style="color: white">
+          Copyright © 2021 Sidharth Jaiswal, All rights reserved.
+        </p>
+      </footer>
     </div>
   </div>
 </template>
