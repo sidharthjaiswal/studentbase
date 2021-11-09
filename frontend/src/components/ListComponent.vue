@@ -1,85 +1,58 @@
 <template>
   <div class="overflow-auto">
-    <b-table
-      :fields="fields"
-      :items="Students"
-      :per-page="perPage"
-      :current-page="currentPage"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      sort-icon-left
-      responsive="sm"
-      medium
-      striped
-    >
-     <!-- <template #cell(actions)="row">
-        <b-button 
-          size="md"
-            @click.prevent="deleteStudent(Students._id)"
-          class="bg-danger"
-        >
-          Delete
-        </b-button>
-
-        <b-button size="md" @click="row.toggleDetails" class="bg-success">
-          <router-link :to="{ name: 'edit', params: { id: Students._id } }"
-            >Edit
-          </router-link>
-        </b-button>
-      </template>-->
-    </b-table>
-    <div>
-      Sorting By: <b>{{ sortBy }}</b
-      >, Sort Direction:
-      <b>{{ sortDesc ? "Descending" : "Ascending" }}</b>
+    <div class="row">
+      <div class="col-md-12">
+        <br />
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th @click='sort("firstName")'>{{ sortBy === 'firstName' ? 'Sorted by ' : '' }}First name</th>
+              <th @click='sort("lastName")'>{{ sortBy === 'lastName' ? 'Sorted by  ' : '' }}Last name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th @click='sort("class")'>{{ sortBy === 'class' ? 'Sorted by  ' : '' }}Class</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="student in sortedStudents" :key="student._id">
+              <td>{{ student.firstName }}</td>
+              <td>{{ student.lastName }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.phone }}</td>
+              <td>{{ student.class }}</td>
+              <td>
+                <router-link
+                  :to="{ name: 'edit', params: { id: student._id } }"
+                  class="btn btn-success"
+                  >Edit
+                </router-link>
+                <button
+                  @click.prevent="deleteStudent(student._id)"
+                  class="btn btn-danger"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <br />
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 export default {
   data() {
     return {
-      sortBy: "firstname",
+      sortBy: "firstName",
       sortDesc: false,
-      fields: [
-        {
-          key: "firstName",
-          sortable: true,
-        },
-        {
-          key: "lastName",
-          sortable: true,
-        },
-        {
-          key: "email",
-          sortable: false,
-        },
-        {
-          key: "phone",
-          sortable: false,
-        },
-        {
-          key: "class",
-          sortable: true,
-        },
-       /* {
-          key: "actions",
-          sortable: false,
-          visible: false
-        },*/
-      ],
       perPage: 3,
       currentPage: 1,
       Students: [],
+      sortOrder: 1
     };
   },
 
@@ -110,10 +83,25 @@ export default {
           });
       }
     },
+    sort: function (sortBy) {
+      if (this.sortBy === sortBy) {
+        this.sortOrder = -this.sortOrder;
+      } else {
+        this.sortBy = sortBy;
+      }
+    },
   },
   computed: {
-    rows() {
-      return this.Students.length;
+    
+    sortedStudents() {
+      return [...this.Students]
+        .map((i) => ({ ...i, sale_potential: parseFloat(i.sale_potential) }))
+        .sort((a, b) => {
+          if (a[this.sortBy] >= b[this.sortBy]) {
+            return this.sortOrder;
+          }
+          return -this.sortOrder;
+        });
     },
   },
 };
